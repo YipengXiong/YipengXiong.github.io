@@ -176,7 +176,7 @@
 
 
 
-<h3 id="2-数学方法"><a href="#2-数学方法" class="headerlink" title="2. 数学方法"></a>2. 数学方法</h3><p><img src="/2020/05/16/Leetcode%E5%B0%8F%E7%BB%93/yas.jpg" alt="约瑟夫环图解"></p>
+<h3 id="2-数学方法"><a href="#2-数学方法" class="headerlink" title="2. 数学方法"></a>2. 数学方法</h3><p><img src="/2020/05/16/Leetcode%E5%B0%8F%E7%BB%93/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF%E5%9B%BE%E8%A7%A3.png" alt="约瑟夫环图解"></p>
 <p>很明显我们每次删除的是第 <em>m</em> 个数字，我都标红了。</p>
 <p>第一轮是<kbd> [0, 1, 2, 3, 4] </kbd> ，所以是<kbd>[0, 1, 2, 3, 4]</kbd> 这个数组的多个复制。这一轮 <strong>2</strong> 删除了。</p>
 <p>第二轮开始时，从 <strong>3</strong> 开始，所以是 <kbd>[3, 4, 0, 1]</kbd> 这个数组的多个复制。这一轮 <strong>0</strong> 删除了。</p>
@@ -206,95 +206,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/05/16/Leetcode%E5%B0%8F%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Leetcode-整理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/15/Leetcode-%E6%95%B4%E7%90%86/">Leetcode 整理</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/15/Leetcode-%E6%95%B4%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-05-15T10:06:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="面试题62-圆圈中剩下的最后一个数字-约瑟夫环问题"><a href="#面试题62-圆圈中剩下的最后一个数字-约瑟夫环问题" class="headerlink" title="面试题62 圆圈中剩下的最后一个数字(约瑟夫环问题)"></a>面试题62 圆圈中剩下的最后一个数字(约瑟夫环问题)</h1><p>0,1,,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字。求出这个圆圈里剩下的最后一个数字。</p>
-<p>例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。</p>
-<h3 id="1-基于ArrayList的模拟链表-O-n2-："><a href="#1-基于ArrayList的模拟链表-O-n2-：" class="headerlink" title="1. 基于ArrayList的模拟链表(O(n2))："></a>1. 基于ArrayList的模拟链表(O(n<sup>2</sup>))：</h3><p>假设当前删除数的位置是 <em>idx</em>，下一个删除数的位置是 <em>idx+m</em>。但是，由于已经删除了当前位置的数字，所以后面的数字会前移一位，实际上的下一个删除位置为 <em>idx+m-1</em>。由于数字到末尾后会从头开始继续数，所有最后取一下模，就是 <em>(idx + m -1)(mod n)</em>。</p>
-<p>这里取模的意义在于当位置从头开始数之后，计数值会大于链表长度，比如让第一圈过了之后，如果总长度是<em>n</em>，那么从头开始就是从<em>n+1</em>开始，为了得到相应的下标索引值，取模操作是必要的，否则会超过索引范围。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lastRemaining</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m)</span></span>&#123;</span><br><span class="line">        ArrayList&lt;Integer&gt;list = <span class="keyword">new</span> ArrayList&lt;&gt;(n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">            list.add(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> idx = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(n &gt; <span class="number">1</span>)&#123;</span><br><span class="line">            idx = (idx + m - <span class="number">1</span>) % n;</span><br><span class="line">            list.remove(idx);</span><br><span class="line">            n--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list.get(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="2-数学方法"><a href="#2-数学方法" class="headerlink" title="2. 数学方法"></a>2. 数学方法</h3><p><img src="https://wx3.sinaimg.cn/mw1024/005SZD7Fly1getftfxk5vj30od0eyjsc.jpg" alt="约瑟夫环图解"></p>
-<p>很明显我们每次删除的是第 <em>m</em> 个数字，我都标红了。</p>
-<p>第一轮是<kbd> [0, 1, 2, 3, 4] </kbd> ，所以是<kbd>[0, 1, 2, 3, 4]</kbd> 这个数组的多个复制。这一轮 <strong>2</strong> 删除了。</p>
-<p>第二轮开始时，从 <strong>3</strong> 开始，所以是 <kbd>[3, 4, 0, 1]</kbd> 这个数组的多个复制。这一轮 <strong>0</strong> 删除了。</p>
-<p>第三轮开始时，从 <strong>1</strong> 开始，所以是 <kbd>[1, 3, 4]</kbd> 这个数组的多个复制。这一轮 <strong>4</strong> 删除了。</p>
-<p>第四轮开始时，还是从 <strong>1</strong> 开始，所以是 <kbd>[1, 3]</kbd> 这个数组的多个复制。这一轮 <strong>1</strong> 删除了。</p>
-<p>最后剩下的数字是 <strong>3</strong>。</p>
-<p>图中的绿色的线指的是新的一轮的开头是怎么指定的，每次都是固定地向前移位 <em>m</em> 个位置。</p>
-<p>然后我们从最后剩下的 <strong>3</strong> 倒着看，我们可以反向推出这个数字在之前每个轮次的位置。</p>
-<p>最后剩下的 <strong>3</strong> 的下标是 <strong>0</strong>。</p>
-<p>第四轮反推，补上 <em>m</em> 个位置，然后模上当时的数组大小 <strong>2</strong>，位置是<kbd>(0 + 3) % 2 = 1</kbd>。</p>
-<p>第三轮反推，补上 <em>m</em> 个位置，然后模上当时的数组大小 <strong>3</strong>，位置是<kbd>(1 + 3) % 3 = 1</kbd>。</p>
-<p>第二轮反推，补上 <em>m</em> 个位置，然后模上当时的数组大小 <strong>4</strong>，位置是<kbd>(1 + 3) % 4 = 0</kbd>。</p>
-<p>第一轮反推，补上 <em>m</em> 个位置，然后模上当时的数组大小 <strong>5</strong>，位置是<kbd>(0 + 3) % 5 = 3</kbd>。</p>
-<p>所以最终剩下的数字的下标就是<strong>3</strong>。因为数组是从<strong>0</strong>开始的，所以最终的答案就是<strong>3</strong>。</p>
-<p>总结一下反推的过程，就是 <kbd>(当前index + m) % 上一轮剩余数字的个数</kbd>。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lastRemaining</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 最后一轮剩下两个，所以从2倒推</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++)&#123;</span><br><span class="line">            ans = (ans + m) % i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/15/Leetcode-%E6%95%B4%E7%90%86/">展开全文 >></a>
         </p>
       
 
